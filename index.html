@@ -10,7 +10,7 @@
     <div class="game-container">
         <!-- Wallet Section -->
         <div class="wallet-section">
-            <h3>Wallet: ₹<span id="wallet-balance">500</span></h3>
+            <h3 id="wallet-balance">Wallet: ₹50</h3>
         </div>
 
         <!-- Game Status -->
@@ -44,14 +44,6 @@
             </div>
         </div>
 
-        <!-- Bets Summary -->
-        <div class="bets-summary">
-            <h3>All Bets</h3>
-            <div class="bets-list">
-                <p>No bets placed yet.</p>
-            </div>
-        </div>
-
         <!-- History Section -->
         <div class="history-section">
             <h3>Round History</h3>
@@ -61,13 +53,31 @@
                 </ul>
             </div>
         </div>
+    </div>
 
-        <!-- Withdraw Section -->
-        <div class="withdraw-section">
+    <!-- Withdraw Form Modal -->
+    <div id="withdraw-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
             <h3>Withdraw Funds</h3>
-            <p>Minimum Withdraw Amount: ₹100</p>
-            <input type="number" id="withdraw-amount" placeholder="Enter amount">
-            <button id="withdraw-button">Withdraw</button>
+            <form id="withdraw-form">
+                <label for="recipient-name">Full Recipient's Name:</label>
+                <input type="text" id="recipient-name" required>
+                
+                <label for="bank-account">Bank Account Number:</label>
+                <input type="text" id="bank-account" required>
+                
+                <label for="ifsc-code">IFSC Code:</label>
+                <input type="text" id="ifsc-code" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="whatsapp">WhatsApp:</label>
+                <input type="text" id="whatsapp" required>
+
+                <button type="submit">Withdraw</button>
+            </form>
             <p id="withdraw-message"></p>
         </div>
     </div>
