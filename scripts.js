@@ -1,27 +1,27 @@
-let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 500;
+let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 50;
 let currentBet = 10;
 let currentMultiplier = 1.00;
 let isBetPlaced = false;
 let gameInProgress = false;
-const minWithdrawAmount = 100;
+const minWithdrawAmount = 200;
 
 const walletBalanceElem = document.getElementById('wallet-balance');
 const multiplierElem = document.getElementById('multiplier');
 const betButton = document.querySelector('.bet-button');
 const collectButton = document.querySelector('.collect-button');
-const betsList = document.querySelector('.bets-list');
 const roundHistory = document.getElementById('round-history');
 const waitingMessage = document.getElementById('waiting-message');
 const multiplierSection = document.getElementById('multiplier-section');
 const bettingSection = document.getElementById('betting-section');
 const collectSection = document.getElementById('collect-section');
+const withdrawModal = document.getElementById('withdraw-modal');
 const withdrawButton = document.getElementById('withdraw-button');
-const withdrawAmountInput = document.getElementById('withdraw-amount');
-const withdrawMessage = document.getElementById('withdraw-message');
+const closeModalButton = document.querySelector('.close-btn');
+const withdrawForm = document.getElementById('withdraw-form');
 
 // Update wallet balance on screen
 function updateWallet() {
-    walletBalanceElem.textContent = walletBalance.toFixed(2);
+    walletBalanceElem.textContent = `Wallet: ₹${walletBalance.toFixed(2)}`;
     localStorage.setItem('walletBalance', walletBalance);
 }
 
@@ -30,11 +30,11 @@ function startMultiplier() {
     multiplierSection.style.display = 'block';
     waitingMessage.style.display = 'none';
 
-    let roundMultiplier = Math.random() * (999 - 1.5) + 1.5;
+    let roundMultiplier = Math.random() * (5 - 1.5) + 1.5;
     roundMultiplier = Math.round(roundMultiplier * 100) / 100;
 
     let interval = setInterval(() => {
-        currentMultiplier += 0.01;
+        currentMultiplier += (currentMultiplier < 5) ? 0.05 : 0.02;
         currentMultiplier = Math.round(currentMultiplier * 100) / 100;
         multiplierElem.textContent = `${currentMultiplier.toFixed(2)}x`;
 
@@ -46,6 +46,7 @@ function startMultiplier() {
 
     if (isBetPlaced) {
         collectSection.style.display = 'block';
+        bettingSection.style.display = 'none';
     }
 }
 
@@ -57,63 +58,96 @@ function endRound(roundMultiplier) {
         let winAmount = currentBet * currentMultiplier;
         walletBalance += winAmount;
         updateWallet();
-        betsList.innerHTML += `<p>Won ₹${winAmount.toFixed(2)} (Multiplier: ${currentMultiplier.toFixed(2)}x)</p>`;
-    } else {
-        betsList.innerHTML += `<p>Lost ₹${currentBet.toFixed(2)} (Multiplier: ${currentMultiplier.toFixed(2)}x)</p>`;
     }
 
-    roundHistory.innerHTML += `<li>${currentMultiplier.toFixed(2)}x</li>`;
     collectSection.style.display = 'none';
+    bettingSection.style.display = 'block';
     isBetPlaced = false;
     currentMultiplier = 1.00;
+    multiplierElem.textContent = '1.00x';
     multiplierSection.style.display = 'none';
     waitingMessage.style.display = 'block';
 
-    setTimeout(() => {
-        startMultiplier();
-    }, 3000);
+    addRoundHistory(roundMultiplier);
 }
 
-// Place a bet
+// Add the round result to history
+function addRoundHistory(roundMultiplier) {
+    const listItem = document.createElement('li');
+    listItem.textContent = `Multiplier: ${roundMultiplier.toFixed(2)}x`;
+    roundHistory.prepend(listItem);
+}
+
+// Handle betting
 betButton.addEventListener('click', () => {
-    if (!gameInProgress && walletBalance >= currentBet) {
-        walletBalance -= currentBet;
-        updateWallet();
-        isBetPlaced = true;
-        gameInProgress = true;
-        startMultiplier();
+    if (!gameInProgress) {
+        currentBet = parseFloat(betButton.textContent.split(' ')[1]);
+        if (walletBalance >= currentBet) {
+            walletBalance -= currentBet;
+            updateWallet();
+            isBetPlaced = true;
+            gameInProgress = true;
+            startMultiplier();
+        }
     }
 });
 
-// Collect winnings
+// Handle collecting
 collectButton.addEventListener('click', () => {
-    if (isBetPlaced && gameInProgress) {
-        gameInProgress = false;
-        collectSection.style.display = 'none';
-        currentMultiplier = 1.00;
-        multiplierSection.style.display = 'none';
-        waitingMessage.style.display = 'block';
-    }
-});
-
-// Withdraw funds
-withdrawButton.addEventListener('click', () => {
-    const withdrawAmount = parseFloat(withdrawAmountInput.value);
-    if (withdrawAmount >= minWithdrawAmount && withdrawAmount <= walletBalance) {
-        walletBalance -= withdrawAmount;
+    if (gameInProgress && isBetPlaced) {
+        walletBalance += currentBet * currentMultiplier;
         updateWallet();
-        withdrawMessage.textContent = `Successfully withdrawn ₹${withdrawAmount.toFixed(2)}.`;
-    } else if (withdrawAmount < minWithdrawAmount) {
-        withdrawMessage.textContent = `Minimum withdraw amount is ₹${minWithdrawAmount}.`;
-    } else {
-        withdrawMessage.textContent = `Insufficient funds.`;
+        endRound(currentMultiplier);
     }
 });
 
-// Set bet value from buttons
-document.querySelectorAll('.bet-option').forEach(button => {
-    button.addEventListener('click', () => {
-        currentBet = parseFloat(button.getAttribute('data-bet'));
-        document.querySelector('.bet-button').textContent = `BET ₹${currentBet}`;
-    });
+// Open the withdraw modal
+walletBalanceElem.addEventListener('click', () => {
+    withdrawModal.style.display = 'flex';
+});
+
+// Close the withdraw modal
+closeModalButton.addEventListener('click', () => {
+    withdrawModal.style.display = 'none';
+});
+
+// Handle withdrawal form submission
+withdrawForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('recipient-name').value;
+    const bankAccount = document.getElementById('bank-account').value;
+    const ifsc = document.getElementById('ifsc-code').value;
+    const email = document.getElementById('email').value;
+    const whatsapp = document.getElementById('whatsapp').value;
+
+    // Store withdrawal info in localStorage
+    localStorage.setItem('withdrawInfo', JSON.stringify({ name, bankAccount, ifsc, email, whatsapp }));
+    withdrawModal.style.display = 'none';
+});
+
+// Initial setup
+updateWallet();
+
+// Progress bar animation handling for re-open
+let progressBarInterval;
+
+function startProgressBar() {
+    let progressBar = document.querySelector('.progress');
+    let width = 0;
+    progressBarInterval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(progressBarInterval);
+            startMultiplier();
+        } else {
+            width++;
+            progressBar.style.width = width + '%';
+        }
+    }, 30);
+}
+
+startProgressBar();
+
+// Clear the progress bar interval if the user leaves
+window.addEventListener('beforeunload', () => {
+    clearInterval(progressBarInterval);
 });
