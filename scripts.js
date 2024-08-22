@@ -6,11 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000); // Adjust according to loading screen duration
 
     // Wallet Balance Management
-    let walletBalance = parseFloat(localStorage.getItem("walletBalance") || 50.00);
+    let walletBalance = 50.00;
     let betAmount = 10.00;
     let roundInProgress = false;
-    let multiplier = 1.00;
-    let multiplierInterval;
 
     const walletBalanceDisplay = document.getElementById("wallet-balance");
     const betButton = document.querySelector(".bet-button");
@@ -19,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const multiplierSection = document.getElementById("multiplier-section");
     const waitingMessage = document.getElementById("waiting-message");
     const roundHistory = document.getElementById("round-history");
-    const progressBar = document.querySelector(".progress");
 
     // Withdraw Modal Elements
     const withdrawModal = document.getElementById("withdraw-modal");
@@ -30,20 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update wallet balance display
     function updateWalletDisplay() {
         walletBalanceDisplay.textContent = `₹${walletBalance.toFixed(2)}`;
-        localStorage.setItem("walletBalance", walletBalance);
-    }
-
-    // Start the progress bar
-    function startProgressBar() {
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 20; // Increase by 20% each second
-            progressBar.style.width = `${progress}%`;
-            if (progress >= 100) {
-                clearInterval(interval);
-                startRound();
-            }
-        }, 1000);
     }
 
     // Place a bet
@@ -52,9 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (walletBalance >= betAmount) {
                 walletBalance -= betAmount;
                 updateWalletDisplay();
-                startProgressBar();
-                betButton.style.display = "none";
-                collectButton.style.display = "block";
+                startRound();
             } else {
                 alert("Insufficient balance.");
             }
@@ -64,37 +45,47 @@ document.addEventListener("DOMContentLoaded", function () {
     // Start the round
     function startRound() {
         roundInProgress = true;
+        betButton.disabled = true;
         waitingMessage.style.display = "none";
         multiplierSection.style.display = "block";
+        collectButton.style.display = "block";
 
-        multiplier = 1.00;
-        multiplierInterval = setInterval(() => {
-            multiplier += Math.random() * 0.1; // Random increase between 0 and 0.1
+        let multiplier = 1.00;
+        let multiplierInterval = setInterval(function () {
+            multiplier += 0.01;
             multiplierDisplay.textContent = `${multiplier.toFixed(2)}x`;
 
-            // Check if the multiplier has reached the maximum or "flew away"
-            if (multiplier >= 999 || Math.random() < 0.05) { // 5% chance to "fly away"
+            // Check if the multiplier has reached the maximum
+            if (multiplier >= 10.00) {
                 clearInterval(multiplierInterval);
                 endRound(multiplier, false);
             }
         }, 100);
+
+        // Enable collect button and stop the round
+        collectButton.addEventListener("click", function () {
+            clearInterval(multiplierInterval);
+            walletBalance += betAmount * multiplier;
+            updateWalletDisplay();
+            endRound(multiplier, true);
+        });
+
+        // End the round after a certain time
+        setTimeout(function () {
+            if (roundInProgress) {
+                clearInterval(multiplierInterval);
+                endRound(multiplier, false);
+            }
+        }, 10000); // Round lasts for 10 seconds
     }
 
-    // Enable collect button and stop the round
-    collectButton.addEventListener("click", function () {
-        clearInterval(multiplierInterval);
-        walletBalance += betAmount * multiplier;
-        updateWalletDisplay();
-        endRound(multiplier, true);
-    });
-
-    // End the round after a certain time
+    // End the round
     function endRound(multiplier, collected) {
         roundInProgress = false;
-        betButton.style.display = "block";
-        collectButton.style.display = "none";
+        betButton.disabled = false;
         waitingMessage.style.display = "block";
         multiplierSection.style.display = "none";
+        collectButton.style.display = "none";
 
         let roundResult = document.createElement("li");
         if (collected) {
@@ -122,21 +113,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     withdrawForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        const withdrawalAmount = parseFloat(document.getElementById("withdraw-amount").value);
-        if (withdrawalAmount >= 200 && withdrawalAmount <= walletBalance) {
-            walletBalance -= withdrawalAmount;
-            updateWalletDisplay();
-            withdrawMessage.textContent = "Your withdrawal request has been submitted.";
-            setTimeout(() => {
-                withdrawModal.style.display = "none";
-                withdrawMessage.textContent = "";
-            }, 3000);
-        } else {
-            withdrawMessage.textContent = "Invalid withdrawal amount.";
-            setTimeout(() => {
-                withdrawMessage.textContent = "";
-            }, 3000);
-        }
+        withdrawMessage.textContent = "Your withdrawal request has been submitted.";
+        setTimeout(() => {
+            withdrawModal.style.display = "none";
+            withdrawMessage.textContent = "";
+        }, 3000);
     });
 
     // Bet options selection
