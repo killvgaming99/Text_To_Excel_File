@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Game</title>
+    <title>Aviator Crash Casino</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Aviator Game</h1>
+    <div class="main-container">
+        <header>
+            <h1>Aviator Crash Casino</h1>
+        </header>
+        
         <div class="game-area">
-            <div class="balance">Balance: $<span id="balance">100</span></div>
-            <input type="number" id="bet-amount" placeholder="Enter bet amount">
-            <button id="place-bet">Place Bet</button>
-            <button id="cash-out" disabled>Cash Out</button>
-            <div class="multiplier">Multiplier: <span id="multiplier">1.00x</span></div>
-            <div class="feedback" id="feedback"></div>
-            <div class="history">
-                <h2>Game History</h2>
-                <ul id="history-list"></ul>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="balance">
+                Balance: $<span id="balance">100</span>
             </div>
+            <input type="number" id="betAmount" placeholder="Enter bet amount">
+            <button id="placeBet">Place Bet</button>
+            <button id="cashOut">Cash Out</button>
+        </div>
+
+        <div class="history">
+            <h2>Game History</h2>
+            <ul id="historyList"></ul>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
