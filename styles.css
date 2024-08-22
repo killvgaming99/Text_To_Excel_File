@@ -1,43 +1,72 @@
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
 .container {
-  margin-top: 50px;
+    text-align: center;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 300px;
 }
 
-canvas {
-  border: 2px solid #000;
-  display: block;
-  margin: 0 auto;
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
-.controls {
-  margin-top: 20px;
+.game-area {
+    margin-top: 20px;
 }
 
-.balance, .bet {
-  margin-bottom: 10px;
+.balance {
+    margin-bottom: 10px;
 }
 
-.buttons button {
-  margin: 0 5px;
+input, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.multiplier {
+    font-size: 20px;
+    margin: 20px 0;
 }
 
 .history {
-  margin-top: 20px;
-  text-align: left;
+    margin-top: 20px;
 }
 
-.history ul {
-  list-style-type: none;
-  padding: 0;
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
 }
 
-.history li {
-  margin-bottom: 5px;
+li {
+    margin-bottom: 5px;
 }
