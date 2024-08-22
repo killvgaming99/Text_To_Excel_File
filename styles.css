@@ -1,239 +1,43 @@
-/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #181818;
-    color: white;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
 }
 
-#loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    animation: fadeOut 1s forwards 3s;
+.container {
+  margin-top: 50px;
 }
 
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        visibility: hidden;
-    }
+canvas {
+  border: 2px solid #000;
+  display: block;
+  margin: 0 auto;
 }
 
-.game-container {
-    width: 400px;
-    padding: 20px;
-    background-color: #222;
-    border-radius: 10px;
-    position: relative;
-    display: none; /* Hide initially and show after loading */
+.controls {
+  margin-top: 20px;
 }
 
-.wallet-section {
-    text-align: right;
-    margin-bottom: 20px;
+.balance, .bet {
+  margin-bottom: 10px;
 }
 
-.wallet-section h3 {
-    font-size: 24px;
-    color: #FFD700;
-    cursor: pointer;
-    transition: color 0.3s;
+.buttons button {
+  margin: 0 5px;
 }
 
-.wallet-section h3:hover {
-    color: #FFA500;
+.history {
+  margin-top: 20px;
+  text-align: left;
 }
 
-.game-status {
-    text-align: center;
-    margin-bottom: 20px;
+.history ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.progress-bar {
-    width: 100%;
-    background-color: #333;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 10px;
-    height: 10px;
-}
-
-.progress {
-    width: 0;
-    height: 10px;
-    background-color: red;
-    transition: width 5s linear;
-}
-
-.multiplier-display {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #FFD700;
-}
-
-.multiplier-display h1 {
-    font-size: 48px;
-    animation: pulse 0.5s infinite alternate;
-}
-
-@keyframes pulse {
-    to {
-        transform: scale(1.1);
-    }
-}
-
-.betting-collect-section {
-    display: flex;
-    justify-content: space-between;
-}
-
-.betting-section {
-    text-align: center;
-    flex: 1;
-}
-
-.collect-section {
-    text-align: center;
-    flex: 1;
-}
-
-.bet-options {
-    margin-bottom: 10px;
-}
-
-.bet-option {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.bet-option:hover {
-    background-color: #666;
-    transform: scale(1.1);
-}
-
-.bet-button, .collect-button {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    width: 100%;
-}
-
-.bet-button:hover, .collect-button:hover {
-    background-color: darkgreen;
-    transform: scale(1.05);
-}
-
-.history-section {
-    margin-top: 20px;
-}
-
-.history-container {
-    height: 100px;
-    overflow-y: scroll;
-}
-
-.history-section ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.history-section li {
-    padding: 5px;
-    background-color: #333;
-    margin-bottom: 5px;
-    border-radius: 5px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: #222;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-}
-
-.close-btn {
-    color: white;
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.close-btn:hover {
-    color: red;
-}
-
-.modal-content form label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.modal-content form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #333;
-    color: white;
-}
-
-.modal-content form button {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    width: 100%;
-}
-
-.modal-content form button:hover {
-    background-color: darkgreen;
-    transform: scale(1.05);
-}
-
-#withdraw-message {
-    color: yellow;
-    margin-top: 10px;
-    text-align: center;
+.history li {
+  margin-bottom: 5px;
 }
