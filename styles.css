@@ -15,6 +15,11 @@ body {
     padding: 20px;
 }
 
+.wallet-section {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
 .game-status {
     text-align: center;
     margin-bottom: 20px;
@@ -38,6 +43,15 @@ body {
 @keyframes progressAnimation {
     0% { width: 0%; }
     100% { width: 100%; }
+}
+
+.multiplier-display {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.multiplier-display h1 {
+    font-size: 48px;
 }
 
 .betting-section {
@@ -64,21 +78,35 @@ body {
     background-color: #666;
 }
 
-.bet-button {
+.bet-button, .collect-button {
     display: block;
     width: 100%;
-    background-color: green;
-    border: none;
+    margin-top: 10px;
     padding: 15px;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
     font-size: 16px;
     transition: background-color 0.3s;
 }
 
+.bet-button {
+    background-color: green;
+    border: none;
+    color: #fff;
+}
+
+.collect-button {
+    background-color: darkorange;
+    border: none;
+    color: #fff;
+}
+
 .bet-button:hover {
     background-color: darkgreen;
+}
+
+.collect-button:hover {
+    background-color: orangered;
 }
 
 .bets-summary {
@@ -87,6 +115,18 @@ body {
     border-radius: 10px;
 }
 
-.bets-list {
-    margin-top: 10px;
+.history-section {
+    background-color: #111;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.history-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history-section li {
+    margin-bottom: 5px;
 }
