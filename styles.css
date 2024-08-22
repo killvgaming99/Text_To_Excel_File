@@ -19,7 +19,7 @@ body {
 }
 
 .wallet-section {
-    text-align: center;
+    text-align: right;
     margin-bottom: 20px;
 }
 
@@ -46,7 +46,7 @@ body {
     width: 0;
     height: 10px;
     background-color: red;
-    animation: progressAnimation 3s linear infinite;
+    animation: progressAnimation 5s linear infinite;
 }
 
 @keyframes progressAnimation {
@@ -62,12 +62,6 @@ body {
 
 .multiplier-display h1 {
     font-size: 48px;
-    animation: multiplierAnimation 5s linear forwards;
-}
-
-@keyframes multiplierAnimation {
-    0% { font-size: 48px; }
-    100% { font-size: 64px; }
 }
 
 .betting-collect-section {
