@@ -1,93 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviator Crash Casino</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="loading-screen">
-        <h1>Loading...</h1>
-    </div>
+  <div class="container">
+    <h1>Aviator Crash Casino</h1>
+    
     <div class="game-container">
-        <!-- Wallet Section -->
-        <div class="wallet-section">
-            <h3 id="wallet-balance">₹50.00</h3>
+      <canvas id="gameCanvas" width="800" height="400"></canvas>
+      
+      <div class="controls">
+        <div class="balance">
+          <label for="balance">Balance:</label>
+          <span id="balance">$100</span>
         </div>
-
-        <!-- Game Status -->
-        <div class="game-status" id="waiting-message">
-            <h2>WAITING FOR NEXT ROUND</h2>
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
+        
+        <div class="bet">
+          <label for="betAmount">Bet Amount:</label>
+          <input type="number" id="betAmount" min="1" step="1">
         </div>
-
-        <!-- Multiplier Display -->
-        <div class="multiplier-display" id="multiplier-section" style="display: none;">
-            <h1 id="multiplier">1.00x</h1>
+        
+        <div class="buttons">
+          <button id="placeBetButton" onclick="startNewRound()">Place Bet</button>
+          <button id="cashoutButton" onclick="cashOut()" disabled>Cash Out</button>
         </div>
-
-        <!-- Betting Section -->
-        <div class="betting-collect-section">
-            <div class="betting-section" id="betting-section">
-                <div class="bet-options">
-                    <button class="bet-option" data-bet="10">10.00 ₹</button>
-                    <button class="bet-option" data-bet="100">100 ₹</button>
-                    <button class="bet-option" data-bet="200">200 ₹</button>
-                    <button class="bet-option" data-bet="500">500 ₹</button>
-                    <button class="bet-option" data-bet="1000">1000 ₹</button>
-                </div>
-                <button class="bet-button">BET ₹10.00</button>
-            </div>
-
-            <div class="collect-section" id="collect-section" style="display: none;">
-                <button class="collect-button">Collect</button>
-            </div>
-        </div>
-
-        <!-- History Section -->
-        <div class="history-section">
-            <h3>Round History</h3>
-            <div class="history-container">
-                <ul id="round-history">
-                    <li>No rounds played yet.</li>
-                </ul>
-            </div>
-        </div>
+      </div>
+      
+      <div class="history">
+        <h3>Game History</h3>
+        <ul id="historyList"></ul>
+      </div>
     </div>
-
-    <!-- Withdraw Form Modal -->
-    <div id="withdraw-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Withdraw Funds</h3>
-            <form id="withdraw-form">
-                <label for="recipient-name">Full Recipient's Name:</label>
-                <input type="text" id="recipient-name" required>
-                
-                <label for="bank-account">Bank Account Number:</label>
-                <input type="text" id="bank-account" required>
-                
-                <label for="ifsc-code">IFSC Code:</label>
-                <input type="text" id="ifsc-code" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" required>
-                
-                <label for="whatsapp">WhatsApp:</label>
-                <input type="text" id="whatsapp" required>
-
-                <label for="withdraw-amount">Withdrawal Amount:</label>
-                <input type="text" id="withdraw-amount" required>
-
-                <button type="submit">Withdraw</button>
-            </form>
-            <p id="withdraw-message"></p>
-        </div>
-    </div>
-
-    <script src="scripts.js"></script>
+  </div>
+  
+  <script src="script.js"></script>
 </body>
 </html>
