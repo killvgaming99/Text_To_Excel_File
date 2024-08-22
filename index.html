@@ -4,18 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviator Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
-        <div id="multiplierDisplay">Waiting for Next Round...</div>
-        <button id="betButton">Bet ₹10</button>
-        <button id="collectButton" style="display:none;">Collect</button>
-        <div id="roundHistory">
-            <h3>Round History</h3>
-            <div id="historyList"></div>
+    <div class="container">
+        <h1>Aviator Game</h1>
+        <div id="multiplier-section">
+            <div id="waiting">Waiting for Next Round...</div>
+            <div id="multiplier-display" class="hidden">
+                <span id="multiplier-value"></span>
+            </div>
         </div>
-        <div id="wallet">Wallet: ₹500</div>
+        <div id="wallet">Wallet: ₹<span id="wallet-amount">500</span></div>
+        <div id="bet-section">
+            <input type="number" id="bet-amount" placeholder="Enter bet amount" min="10">
+            <button id="bet-button">Bet</button>
+            <button id="collect-button" class="hidden">Collect</button>
+        </div>
+        <div id="withdraw-section">
+            <input type="number" id="withdraw-amount" placeholder="Withdraw amount" min="100">
+            <button id="withdraw-button">Withdraw</button>
+        </div>
+        <h2>Round History</h2>
+        <div id="round-history">
+            No rounds played yet.
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
