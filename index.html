@@ -8,12 +8,22 @@
 </head>
 <body>
     <div class="game-container">
+        <!-- Wallet Section -->
+        <div class="wallet-section">
+            <h3>Wallet: ₹<span id="wallet-balance">500</span></h3>
+        </div>
+
         <!-- Game Status -->
         <div class="game-status">
             <h2>WAITING FOR NEXT ROUND</h2>
             <div class="progress-bar">
                 <div class="progress"></div>
             </div>
+        </div>
+
+        <!-- Multiplier Display -->
+        <div class="multiplier-display">
+            <h1 id="multiplier">1.00x</h1>
         </div>
 
         <!-- Betting Section -->
@@ -26,6 +36,7 @@
                 <button class="bet-option">1000 ₹</button>
             </div>
             <button class="bet-button">BET 10.00 ₹</button>
+            <button class="collect-button" disabled>Collect</button>
         </div>
 
         <!-- Bets Summary -->
@@ -34,6 +45,14 @@
             <div class="bets-list">
                 <p>No bets placed yet.</p>
             </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h3>Round History</h3>
+            <ul id="round-history">
+                <li>No rounds played yet.</li>
+            </ul>
         </div>
     </div>
 
