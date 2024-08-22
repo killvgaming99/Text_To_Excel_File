@@ -7,29 +7,71 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Aviator Game</h1>
-        <div id="multiplier-section">
-            <div id="waiting">Waiting for Next Round...</div>
-            <div id="multiplier-display" class="hidden">
-                <span id="multiplier-value"></span>
+    <div class="game-container">
+        <!-- Wallet Section -->
+        <div class="wallet-section">
+            <h3>Wallet: ₹<span id="wallet-balance">500</span></h3>
+        </div>
+
+        <!-- Game Status -->
+        <div class="game-status" id="waiting-message">
+            <h2>WAITING FOR NEXT ROUND</h2>
+            <div class="progress-bar">
+                <div class="progress"></div>
             </div>
         </div>
-        <div id="wallet">Wallet: ₹<span id="wallet-amount">500</span></div>
-        <div id="bet-section">
-            <input type="number" id="bet-amount" placeholder="Enter bet amount" min="10">
-            <button id="bet-button">Bet</button>
-            <button id="collect-button" class="hidden">Collect</button>
+
+        <!-- Multiplier Display -->
+        <div class="multiplier-display" id="multiplier-section" style="display: none;">
+            <h1 id="multiplier">1.00x</h1>
         </div>
-        <div id="withdraw-section">
-            <input type="number" id="withdraw-amount" placeholder="Withdraw amount" min="100">
+
+        <!-- Betting Section -->
+        <div class="betting-collect-section">
+            <div class="betting-section" id="betting-section">
+                <div class="bet-options">
+                    <button class="bet-option">10.00 ₹</button>
+                    <button class="bet-option">100 ₹</button>
+                    <button class="bet-option">200 ₹</button>
+                    <button class="bet-option">500 ₹</button>
+                    <button class="bet-option">1000 ₹</button>
+                </div>
+                <button class="bet-button">BET 10.00 ₹</button>
+            </div>
+
+            <div class="collect-section" id="collect-section" style="display: none;">
+                <button class="collect-button">Collect</button>
+            </div>
+        </div>
+
+        <!-- Bets Summary -->
+        <div class="bets-summary">
+            <h3>All Bets</h3>
+            <div class="bets-list">
+                <p>No bets placed yet.</p>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h3>Round History</h3>
+            <div class="history-container">
+                <ul id="round-history">
+                    <li>No rounds played yet.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div class="withdraw-section">
+            <h3>Withdraw Funds</h3>
+            <p>Minimum Withdraw Amount: ₹100</p>
+            <input type="number" id="withdraw-amount" placeholder="Enter amount">
             <button id="withdraw-button">Withdraw</button>
-        </div>
-        <h2>Round History</h2>
-        <div id="round-history">
-            No rounds played yet.
+            <p id="withdraw-message"></p>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
