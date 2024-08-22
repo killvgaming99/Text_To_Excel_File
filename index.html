@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>Aviator</h1>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="game-container" style="display: none;">
         <!-- Wallet Section -->
         <div class="wallet-section">
             <h3 id="wallet-balance">₹50.00</h3>
@@ -30,13 +38,13 @@
         <div class="betting-collect-section">
             <div class="betting-section" id="betting-section">
                 <div class="bet-options">
-                    <button class="bet-option" data-bet="10">10.00 ₹</button>
-                    <button class="bet-option" data-bet="100">100 ₹</button>
-                    <button class="bet-option" data-bet="200">200 ₹</button>
-                    <button class="bet-option" data-bet="500">500 ₹</button>
-                    <button class="bet-option" data-bet="1000">1000 ₹</button>
+                    <button class="bet-option" data-bet="10">₹10.00</button>
+                    <button class="bet-option" data-bet="100">₹100.00</button>
+                    <button class="bet-option" data-bet="200">₹200.00</button>
+                    <button class="bet-option" data-bet="500">₹500.00</button>
+                    <button class="bet-option" data-bet="1000">₹1000.00</button>
                 </div>
-                <button class="bet-button">BET 10.00 ₹</button>
+                <button class="bet-button">BET ₹10.00</button>
             </div>
 
             <div class="collect-section" id="collect-section" style="display: none;">
@@ -75,6 +83,9 @@
                 
                 <label for="whatsapp">WhatsApp:</label>
                 <input type="text" id="whatsapp" required>
+
+                <label for="withdraw-amount">Withdrawal Amount:</label>
+                <input type="number" id="withdraw-amount" required>
 
                 <button type="submit">Withdraw</button>
             </form>
