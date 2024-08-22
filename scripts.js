@@ -28,23 +28,22 @@ function updateWallet() {
 
 // Generate a random multiplier with animation
 function generateRandomMultiplier() {
-    const maxMultiplier = 999;
-    let generatedMultiplier = (Math.random() * (maxMultiplier - 1) + 1).toFixed(2);
-    multiplierElem.textContent = '1.00x';
+    const maxMultiplier = 10; // Change this to a higher number for more excitement
+    const generatedMultiplier = (Math.random() * (maxMultiplier - 1) + 1).toFixed(2);
+    let displayMultiplier = 1.00;
 
     let multiplierInterval = setInterval(() => {
-        let displayMultiplier = parseFloat(multiplierElem.textContent);
-        displayMultiplier += 0.05;
-        multiplierElem.textContent = `${displayMultiplier.toFixed(2)}x`;
-
         if (displayMultiplier >= generatedMultiplier) {
             clearInterval(multiplierInterval);
             currentMultiplier = displayMultiplier.toFixed(2);
             if (!isBetPlaced) {
                 endGame(false);
             }
+            return;
         }
-    }, 50);
+        displayMultiplier += 0.05;
+        multiplierElem.textContent = `${displayMultiplier.toFixed(2)}x`;
+    }, 100);
 
     return generatedMultiplier;
 }
@@ -60,89 +59,63 @@ function startGame() {
     if (isBetPlaced) {
         setTimeout(() => {
             if (!gameInProgress) return;
-
-            endGame(true);
-        }, 5000);
-    } else {
-        setTimeout(() => {
-            endGame(false);
-        }, 5000);
+            endGame(false); // End the game if not collected
+        }, 5000); // Modify this duration based on your preference
     }
 }
 
-// End game, update wallet if bet placed
-function endGame(betPlaced) {
+// End game and reset
+function endGame(didCollect) {
     gameInProgress = false;
-
-    if (betPlaced && !isBetPlaced) {
-        const loss = currentBet;
-        walletBalance -= loss;
+    waitingMessage.style.display = 'block';
+    multiplierSection.style.display = 'none';
+    if (didCollect) {
+        walletBalance += currentBet * currentMultiplier;
         updateWallet();
-        betsList.innerHTML = `<p>You lost ₹${loss.toFixed(2)}.</p>`;
-    }
-
-    addRoundToHistory(currentMultiplier);
-    resetGame();
-}
-
-// Place a bet
-betButton.addEventListener('click', function() {
-    if (walletBalance >= currentBet) {
+        addHistoryEntry(currentMultiplier, true);
+    } else {
         walletBalance -= currentBet;
         updateWallet();
-        isBetPlaced = true;
-        bettingSection.style.display = 'none';
-        collectSection.style.display = 'block';
-        multiplierSection.style.display = 'block';
-
-        startGame();
+        addHistoryEntry(currentMultiplier, false);
     }
-});
-
-// Collect the bet
-collectButton.addEventListener('click', function() {
-    if (isBetPlaced && gameInProgress) {
-        const winnings = currentBet * parseFloat(currentMultiplier);
-        walletBalance += winnings;
-        updateWallet();
-        betsList.innerHTML = `<p>Collected: ₹${winnings.toFixed(2)}</p>`;
-        resetGame();
-    }
-});
-
-// Reset game state
-function resetGame() {
     isBetPlaced = false;
+    showBetSection();
+}
+
+// Add history entry
+function addHistoryEntry(multiplier, didCollect) {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${multiplier}x - ${didCollect ? 'Collected' : 'Flew Away'}`;
+    roundHistory.appendChild(listItem);
+}
+
+// Place bet
+betButton.addEventListener('click', () => {
+    isBetPlaced = true;
+    hideBetSection();
+    setTimeout(startGame, 3000); // Wait for 3 seconds before starting the round
+});
+
+// Collect winnings
+collectButton.addEventListener('click', () => {
+    endGame(true);
+});
+
+// Hide bet section and show collect section
+function hideBetSection() {
+    bettingSection.style.display = 'none';
+    collectSection.style.display = 'block';
+}
+
+// Show bet section and hide collect section
+function showBetSection() {
     bettingSection.style.display = 'block';
     collectSection.style.display = 'none';
-    multiplierSection.style.display = 'none';
-    waitingMessage.style.display = 'block';
 }
 
-// Update the bet amount when an option is selected
-document.querySelectorAll('.bet-option').forEach(button => {
-    button.addEventListener('click', function() {
-        currentBet = parseFloat(this.textContent);
-        betButton.textContent = `BET ₹${currentBet.toFixed(2)}`;
-    });
-});
-
-// Add round to history
-function addRoundToHistory(multiplier) {
-    const li = document.createElement('li');
-    li.textContent = `${multiplier}x`;
-    roundHistory.appendChild(li);
-
-    // Limit history to last 10 rounds
-    if (roundHistory.children.length > 10) {
-        roundHistory.removeChild(roundHistory.children[0]);
-    }
-}
-
-// Handle Withdrawals
-withdrawButton.addEventListener('click', function() {
+// Handle withdrawal
+withdrawButton.addEventListener('click', () => {
     const withdrawAmount = parseFloat(withdrawAmountInput.value);
-    
     if (isNaN(withdrawAmount) || withdrawAmount < minWithdrawAmount) {
         withdrawMessage.textContent = `Minimum amount for withdrawal is ₹${minWithdrawAmount}.`;
         return;
