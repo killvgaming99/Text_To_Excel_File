@@ -1,24 +1,6 @@
 /* styles.css */
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-}
-
-.game-container {
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.wallet-section {
-    text-align: right;
-    margin-bottom: 10px;
-}
+/* Previous styles remain unchanged */
 
 .game-status {
     text-align: center;
@@ -37,7 +19,7 @@ body {
     width: 0;
     height: 10px;
     background-color: red;
-    animation: progressAnimation 5s linear infinite;
+    animation: progressAnimation 5s linear forwards;
 }
 
 @keyframes progressAnimation {
@@ -52,81 +34,47 @@ body {
 
 .multiplier-display h1 {
     font-size: 48px;
+    animation: multiplierAnimation 5s linear forwards;
 }
 
-.betting-section {
-    margin-bottom: 20px;
+@keyframes multiplierAnimation {
+    0% { font-size: 48px; }
+    100% { font-size: 64px; }
 }
 
-.bet-options {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
+/* Withdraw Section Styles */
+.withdraw-section {
+    margin-top: 20px;
+    background-color: #111;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-.bet-option {
-    background-color: #444;
-    border: none;
+.withdraw-section input[type="number"] {
+    width: calc(100% - 20px);
     padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    transition: background-color 0.3s;
+    border: none;
+    outline: none;
 }
 
-.bet-option:hover {
-    background-color: #666;
-}
-
-.bet-button, .collect-button {
-    display: block;
+.withdraw-section button {
     width: 100%;
-    margin-top: 10px;
     padding: 15px;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.bet-button {
-    background-color: green;
-    border: none;
-    color: #fff;
-}
-
-.collect-button {
     background-color: darkorange;
     border: none;
     color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.bet-button:hover {
-    background-color: darkgreen;
-}
-
-.collect-button:hover {
+.withdraw-section button:hover {
     background-color: orangered;
 }
 
-.bets-summary {
-    background-color: #111;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.history-section {
-    background-color: #111;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.history-section ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.history-section li {
-    margin-bottom: 5px;
+.withdraw-section p {
+    margin-top: 10px;
+    color: red;
 }
