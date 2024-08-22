@@ -3,31 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Crash Casino</title>
+    <title>Aviator Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-container">
-        <header>
-            <h1>Aviator Crash Casino</h1>
-        </header>
-        
+    <div class="container">
+        <h1>Aviator Game</h1>
         <div class="game-area">
-            <canvas id="gameCanvas"></canvas>
-        </div>
-
-        <div class="controls">
-            <div class="balance">
-                Balance: $<span id="balance">100</span>
+            <div class="balance">Balance: ₹<span id="balance">50</span></div>
+            <input type="number" id="bet-amount" placeholder="Enter bet amount">
+            <button id="place-bet">Place Bet</button>
+            <button id="cash-out" disabled>Cash Out</button>
+            <div class="multiplier">Multiplier: <span id="multiplier">1.00x</span></div>
+            <div class="feedback" id="feedback"></div>
+            <div class="history">
+                <h2>Game History</h2>
+                <ul id="history-list"></ul>
             </div>
-            <input type="number" id="betAmount" placeholder="Enter bet amount">
-            <button id="placeBet">Place Bet</button>
-            <button id="cashOut">Cash Out</button>
         </div>
+    </div>
 
-        <div class="history">
-            <h2>Game History</h2>
-            <ul id="historyList"></ul>
+    <!-- Withdraw Modal -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Withdraw Funds</h2>
+            <form id="withdraw-form">
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" required>
+                
+                <label for="bank-account">Bank Account Number:</label>
+                <input type="text" id="bank-account" required>
+                
+                <label for="ifsc">IFSC Code:</label>
+                <input type="text" id="ifsc" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="whatsapp">WhatsApp:</label>
+                <input type="text" id="whatsapp" required>
+                
+                <label for="withdraw-amount">Withdraw Amount (Min ₹200):</label>
+                <input type="number" id="withdraw-amount" required>
+                
+                <button type="submit">Withdraw</button>
+            </form>
         </div>
     </div>
 
