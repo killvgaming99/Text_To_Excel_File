@@ -1,82 +1,119 @@
-// Initialize balance from local storage or set to 100
-let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 100;
+// Initial balance setup
+let balance = parseFloat(localStorage.getItem('balance')) || 50;
 document.getElementById('balance').textContent = balance.toFixed(2);
 
-// Variables for game state
-let currentMultiplier = 1;
+// Variables to track game state
+let multiplier = 1.00;
 let betAmount = 0;
+let gameInProgress = false;
 let gameInterval;
-let gameActive = false;
 
-// Function to start the game
-function startGame() {
-    currentMultiplier = 1;
-    gameActive = true;
-    gameInterval = setInterval(() => {
-        currentMultiplier += (Math.random() * 0.05);
-        drawMultiplier(currentMultiplier.toFixed(2));
-    }, 100);
-}
+// Withdraw Modal elements
+const withdrawModal = document.getElementById('withdraw-modal');
+const withdrawForm = document.getElementById('withdraw-form');
+const closeBtn = document.querySelector('.close');
 
-// Function to place a bet
-document.getElementById('placeBet').addEventListener('click', () => {
-    if (gameActive) return alert('Game already in progress!');
-    
-    betAmount = parseFloat(document.getElementById('betAmount').value);
-    if (isNaN(betAmount) || betAmount <= 0) return alert('Please enter a valid bet amount!');
-    if (betAmount > balance) return alert('Insufficient balance!');
-    
-    balance -= betAmount;
-    updateBalance();
-    startGame();
-});
-
-// Function to cash out
-document.getElementById('cashOut').addEventListener('click', () => {
-    if (!gameActive) return alert('No active game to cash out from!');
-
-    clearInterval(gameInterval);
-    gameActive = false;
-    
-    let winnings = betAmount * currentMultiplier;
-    balance += winnings;
-    updateBalance();
-    
-    addHistory(`Cashed out at x${currentMultiplier.toFixed(2)} and won $${winnings.toFixed(2)}`);
-});
-
-// Function to draw the multiplier on the canvas
-function drawMultiplier(multiplier) {
-    const canvas = document.getElementById('gameCanvas');
-    const context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    context.fillStyle = '#ffcc00';
-    context.font = '50px Arial';
-    context.textAlign = 'center';
-    context.shadowColor = '#ffcc00';
-    context.shadowBlur = 20;
-    context.fillText('x' + multiplier, canvas.width / 2, canvas.height / 2);
-}
-
-// Function to update the balance display and save to local storage
+// Function to update the balance display
 function updateBalance() {
     document.getElementById('balance').textContent = balance.toFixed(2);
     localStorage.setItem('balance', balance.toFixed(2));
-    flashBalance();
 }
 
-// Function to flash the balance when it updates
-function flashBalance() {
-    const balanceElement = document.getElementById('balance');
-    balanceElement.style.color = '#00ff00';
-    setTimeout(() => balanceElement.style.color = '', 500);
+// Function to generate a random multiplier between 1x and 999x
+function generateRandomMultiplier() {
+    return (Math.random() * 998 + 1).toFixed(2);
 }
 
-// Function to add to game history
-function addHistory(message) {
-    const historyList = document.getElementById('historyList');
-    const listItem = document.createElement('li');
-    listItem.textContent = message;
-    historyList.prepend(listItem);
+// Function to start the game
+function startGame() {
+    gameInProgress = true;
+    document.getElementById('place-bet').disabled = true;
+    document.getElementById('cash-out').disabled = false;
+    multiplier = 1.00;
+
+    gameInterval = setInterval(() => {
+        multiplier += 0.01;
+        document.getElementById('multiplier').textContent = multiplier.toFixed(2) + 'x';
+
+        // Randomly decide if the game should end
+        if (Math.random() < 0.01 || multiplier >= generateRandomMultiplier()) {
+            endGame(false);
+        }
+    }, 100);
+}
+
+// Function to handle placing a bet
+document.getElementById('place-bet').addEventListener('click', function() {
+    betAmount = parseFloat(document.getElementById('bet-amount').value);
+    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balance) {
+        document.getElementById('feedback').textContent = 'Invalid bet amount!';
+        return;
+    }
+
+    balance -= betAmount;
+    updateBalance();
+    document.getElementById('feedback').textContent = '';
+    startGame();
+});
+
+// Function to handle cashing out
+document.getElementById('cash-out').addEventListener('click', function() {
+    if (gameInProgress) {
+        endGame(true);
+    }
+});
+
+// Function to end the game
+function endGame(cashedOut) {
+    clearInterval(gameInterval);
+    document.getElementById('place-bet').disabled = false;
+    document.getElementById('cash-out').disabled = true;
+    gameInProgress = false;
+
+    if (cashedOut) {
+        const winnings = betAmount * multiplier;
+        balance += winnings;
+        updateBalance();
+        document.getElementById('feedback').textContent = `Cashed out at ${multiplier.toFixed(2)}x for ₹${winnings.toFixed(2)}!`;
+
+        // Add to history
+        const historyList = document.getElementById('history-list');
+        const historyItem = document.createElement('li');
+        historyItem.textContent = `Cashed out at ${multiplier.toFixed(2)}x: ₹${winnings.toFixed(2)}`;
+        historyList.appendChild(historyItem);
+    } else {
+        document.getElementById('feedback').textContent = 'Round ended, no cash out!';
+    }
+}
+
+// Function to open withdraw modal
+document.getElementById('balance').addEventListener('click', function() {
+    withdrawModal.style.display = 'block';
+});
+
+// Function to close withdraw modal
+closeBtn.addEventListener('click', function() {
+    withdrawModal.style.display = 'none';
+});
+
+// Function to handle withdrawal form submission
+withdrawForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const withdrawAmount = parseFloat(document.getElementById('withdraw-amount').value);
+    if (withdrawAmount >= 200 && withdrawAmount <= balance) {
+        balance -= withdrawAmount;
+        updateBalance();
+        alert('Withdrawal successful!');
+        withdrawModal.style.display = 'none';
+    } else {
+        alert('Invalid withdrawal amount. Minimum ₹200 or insufficient balance.');
+    }
+});
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target === withdrawModal) {
+        withdrawModal.style.display = 'none';
+    }
 }
