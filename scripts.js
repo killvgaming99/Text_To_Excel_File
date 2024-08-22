@@ -1,99 +1,82 @@
-let canvas, ctx, animationFrameId;
-let crashMultiplier = 1.00;
-let targetMultiplier = 1.00;
+// Initial balance setup
+let balance = parseFloat(localStorage.getItem('balance')) || 100;
+document.getElementById('balance').textContent = balance.toFixed(2);
+
+// Variables to track game state
+let multiplier = 1.00;
 let betAmount = 0;
-let cashOutAmount = 0;
-let balance = 100;
-let hashGenerated = false;
+let gameInProgress = false;
+let gameInterval;
 
-function startGame() {
-  canvas = document.getElementById('gameCanvas');
-  ctx = canvas.getContext('2d');
-  
-  document.getElementById('placeBetButton').addEventListener('click', startNewRound);
-  document.getElementById('cashoutButton').addEventListener('click', cashOut);
-  
-  resetGame();
-  animate();
-}
-
-function startNewRound() {
-  betAmount = parseFloat(document.getElementById('betAmount').value);
-  
-  if (betAmount > balance) {
-    alert('Insufficient balance!');
-    return;
-  }
-  
-  balance -= betAmount;
-  updateBalance();
-  
-  resetMultiplier();
-  hashGenerated = false;
-  
-  document.getElementById('cashoutButton').disabled = false;
-  
-  animate();
-}
-
-function cashOut() {
-  gameOver();
-  
-  balance += cashOutAmount;
-  updateBalance();
-  
-  addToHistory(`You cashed out $${cashOutAmount.toFixed(2)}`);
-  
-  cashOutAmount = 0;
-  betAmount = 0;
-  targetMultiplier = 1.00;
-  hashGenerated = false;
-  
-  resetMultiplier();
-}
-
-function gameOver() {
-  cancelAnimationFrame(animationFrameId);
-  document.getElementById('cashoutButton').disabled = true;
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawGraph();
-  
-  cashOutAmount = betAmount * crashMultiplier;
-  document.getElementById('score').innerText = `Cash Out Amount: $${cashOutAmount.toFixed(2)}`;
-  
-  if (crashMultiplier >= targetMultiplier && hashGenerated) {
-    gameOver();
-  } else if (crashMultiplier <= 0) {
-    gameOver();
-  } else {
-    animationFrameId = requestAnimationFrame(animate);
-  }
-}
-
-function drawGraph() {
-  // Draw the graph
-}
-
-function resetGame() {
-  balance = 100;
-  updateBalance();
-  
-  resetMultiplier();
-  hashGenerated = false;
-}
-
+// Function to update the balance display
 function updateBalance() {
-  document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
+    document.getElementById('balance').textContent = balance.toFixed(2);
+    localStorage.setItem('balance', balance.toFixed(2));
 }
 
-function addToHistory(message) {
-  const historyList = document.getElementById('historyList');
-  const listItem = document.createElement('li');
-  listItem.textContent = message;
-  historyList.insertBefore(listItem, historyList.firstChild);
+// Function to generate a random multiplier
+function generateRandomMultiplier() {
+    return (Math.random() * 99 + 1).toFixed(2);
 }
 
-startGame();
+// Function to start the game
+function startGame() {
+    gameInProgress = true;
+    document.getElementById('place-bet').disabled = true;
+    document.getElementById('cash-out').disabled = false;
+    multiplier = 1.00;
+
+    gameInterval = setInterval(() => {
+        multiplier += 0.01;
+        document.getElementById('multiplier').textContent = multiplier.toFixed(2) + 'x';
+
+        // Randomly decide if the game should end
+        if (Math.random() < 0.01) {
+            endGame(false);
+        }
+    }, 100);
+}
+
+// Function to handle placing a bet
+document.getElementById('place-bet').addEventListener('click', function() {
+    betAmount = parseFloat(document.getElementById('bet-amount').value);
+    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balance) {
+        document.getElementById('feedback').textContent = 'Invalid bet amount!';
+        return;
+    }
+
+    balance -= betAmount;
+    updateBalance();
+    document.getElementById('feedback').textContent = '';
+    startGame();
+});
+
+// Function to handle cashing out
+document.getElementById('cash-out').addEventListener('click', function() {
+    if (gameInProgress) {
+        endGame(true);
+    }
+});
+
+// Function to end the game
+function endGame(cashedOut) {
+    clearInterval(gameInterval);
+    document.getElementById('place-bet').disabled = false;
+    document.getElementById('cash-out').disabled = true;
+    gameInProgress = false;
+
+    if (cashedOut) {
+        const winnings = betAmount * multiplier;
+        balance += winnings;
+        updateBalance();
+        document.getElementById('feedback').textContent = `Cashed out at ${multiplier.toFixed(2)}x for $${winnings.toFixed(2)}!`;
+
+        // Add to history
+        const historyList = document.getElementById('history-list');
+        const historyItem = document.createElement('li');
+        historyItem.textContent = `Cashed out at ${multiplier.toFixed(2)}x: $${winnings.toFixed(2)}`;
+        historyList.appendChild(historyItem);
+    } else {
+        document.getElementById('feedback').textContent = 'Round ended, no cash out!';
+    }
+}
