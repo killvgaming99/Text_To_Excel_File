@@ -14,7 +14,7 @@
         </div>
 
         <!-- Game Status -->
-        <div class="game-status">
+        <div class="game-status" id="waiting-message">
             <h2>WAITING FOR NEXT ROUND</h2>
             <div class="progress-bar">
                 <div class="progress"></div>
@@ -22,12 +22,12 @@
         </div>
 
         <!-- Multiplier Display -->
-        <div class="multiplier-display">
+        <div class="multiplier-display" id="multiplier-section" style="display: none;">
             <h1 id="multiplier">1.00x</h1>
         </div>
 
         <!-- Betting Section -->
-        <div class="betting-section">
+        <div class="betting-section" id="betting-section">
             <div class="bet-options">
                 <button class="bet-option">10.00 ₹</button>
                 <button class="bet-option">100 ₹</button>
@@ -36,7 +36,11 @@
                 <button class="bet-option">1000 ₹</button>
             </div>
             <button class="bet-button">BET 10.00 ₹</button>
-            <button class="collect-button" disabled>Collect</button>
+        </div>
+
+        <!-- Collect Section -->
+        <div class="collect-section" id="collect-section" style="display: none;">
+            <button class="collect-button">Collect</button>
         </div>
 
         <!-- Bets Summary -->
@@ -53,6 +57,15 @@
             <ul id="round-history">
                 <li>No rounds played yet.</li>
             </ul>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div class="withdraw-section">
+            <h3>Withdraw Funds</h3>
+            <p>Minimum Withdraw Amount: ₹100</p>
+            <input type="number" id="withdraw-amount" placeholder="Enter amount">
+            <button id="withdraw-button">Withdraw</button>
+            <p id="withdraw-message"></p>
         </div>
     </div>
 
