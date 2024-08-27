@@ -1,4 +1,14 @@
-document.getElementById("refresh-button").addEventListener("click", function() {
-    const video = document.getElementById("cloudfront-video");
-    video.src = video.src; // Reloads the video by resetting its source
+const panels = document.querySelectorAll(".panel");
+
+panels.forEach((panel) => {
+  panel.addEventListener("click", () => {
+    removeActiveClasses();
+    panel.classList.add("active");
+  });
 });
+
+const removeActiveClasses = () => {
+  panels.forEach((panel) => {
+    panel.classList.remove("active");
+  });
+};
