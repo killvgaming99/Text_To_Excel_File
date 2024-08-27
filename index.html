@@ -3,32 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Crash Casino</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CloudFront Video</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="main-container">
-        <header>
-            <h1>Aviator Crash Casino</h1>
-        </header>
-        
-        <div class="game-area">
-            <canvas id="gameCanvas"></canvas>
-        </div>
-
-        <div class="controls">
-            <div class="balance">
-                Balance: $<span id="balance">100</span>
-            </div>
-            <input type="number" id="betAmount" placeholder="Enter bet amount">
-            <button id="placeBet">Place Bet</button>
-            <button id="cashOut">Cash Out</button>
-        </div>
-
-        <div class="history">
-            <h2>Game History</h2>
-            <ul id="historyList"></ul>
-        </div>
+    <div class="container">
+        <h1>CloudFront Video</h1>
+        <video id="cloudfront-video" controls>
+            <source src="https://d3cx6qbbd4cbso.cloudfront.net/file_library/videos/download/4013782/1713954362_7003647832955386/17138774499408649384_480" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button id="refresh-button">Refresh Video</button>
     </div>
 
     <script src="script.js"></script>
