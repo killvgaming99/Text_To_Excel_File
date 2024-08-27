@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #b8c6db;
-  background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 100%);
-  font-family: "Poppins", sans-serif;
+  background-color: #fef9f2;
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,56 +15,76 @@ body {
   margin: 0;
 }
 
-.quiz-container {
+.panel-container {
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
-  width: 600px;
-  max-width: 95vw;
-  overflow: hidden;
-}
-
-.quiz-header {
-  padding: 4rem;
-}
-
-h2 {
-  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  font-size: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin: 0;
+  padding: 30px;
+  max-width: 400px;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.panel-container strong {
+  line-height: 20px;
 }
 
-ul li {
-  font-size: 1.2rem;
-  margin: 1rem 0;
+.ratings-container {
+  display: flex;
+  margin: 20px 0;
 }
 
-ul li label {
+.rating {
+  flex: 1;
   cursor: pointer;
+  padding: 20px;
+  margin: 10px 5px;
 }
 
-button {
-  background-color: #8e44ad;
+.rating:hover,
+.rating.active {
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.rating img {
+  width: 40px;
+}
+
+.rating small {
+  color: #555;
+  display: inline-block;
+  margin: 10px 0 0;
+}
+
+.rating:hover small,
+.rating.active small {
+  color: #111;
+}
+
+.btn {
+  background-color: #302d2b;
   color: #fff;
-  border: none;
-  display: block;
-  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 30px;
   cursor: pointer;
-  font-size: 1.1rem;
-  font-family: inherit;
-  padding: 1.3rem;
 }
 
-button:hover {
-  background-color: #732d91;
+.btn:focus {
+  outline: 0;
 }
 
-button:focus {
-  outline: none;
-  background-color: #5e3370;
+.btn:active {
+  transform: scale(0.98);
+}
+
+.fa-heart {
+  color: red;
+  font-size: 30px;
+  margin-bottom: 10px;
 }
