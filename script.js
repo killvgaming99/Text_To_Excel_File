@@ -1,38 +1,61 @@
-const ratings = document.querySelectorAll('.rating')
-const ratingsContainer = document.querySelector('.ratings-container')
-const sendBtn = document.querySelector('#send')
-const panel = document.querySelector('#panel')
-let selectedRating = 'Satisfied'
+let multiplier = 1;
+let isGameRunning = false;
+let betAmount = 0;
+let gameHistory = [];
 
-ratingsContainer.addEventListener('click', (e) => {
-    if(e.target.parentNode.classList.contains('rating') && e.target.nextElementSibling) {
-        removeActive()
-        e.target.parentNode.classList.add('active')
-        selectedRating = e.target.nextElementSibling.innerHTML
-    } else if(
-        e.target.parentNode.classList.contains('rating') &&
-        e.target.previousSibling &&
-        e.target.previousElementSibling.nodeName === 'IMG'
-    ) {
-        removeActive()
-        e.target.parentNode.classList.add('active')
-        selectedRating = e.target.innerHTML
-    }
+const planeContainer = document.querySelector('.plane-container');
+const multiplierElement = document.getElementById('multiplier');
+const betAmountInput = document.getElementById('bet-amount');
+const placeBetButton = document.getElementById('place-bet');
+const gameHistoryList = document.getElementById('game-history');
+const withdrawalAmountInput = document.getElementById('withdrawal-amount');
+const withdrawButton = document.getElementById('withdraw');
 
-})
+function startGame() {
+    if (!isGameRunning) {
+        betAmount = parseInt(betAmountInput.value);
+        if (isNaN(betAmount) || betAmount <= 0) {
+            alert('Please enter a valid bet amount.');
+            return;
+        }
 
-sendBtn.addEventListener('click', (e) => {
-    panel.innerHTML = `
-        <i class="fas fa-heart"></i>
-        <strong>Thank You!</strong>
-        <br>
-        <strong>Feedback: ${selectedRating}</strong>
-        <p>We'll use your feedback to improve our customer support</p>
-    `
-})
+        isGameRunning = true;
+        planeContainer.style.bottom = '0';
 
-function removeActive() {
-    for(let i = 0; i < ratings.length; i++) {
-        ratings[i].classList.remove('active')
+        let intervalId = setInterval(() => {
+            multiplier += 0.1;
+            multiplierElement.textContent = `${multiplier.toFixed(2)}x`;
+
+            if (Math.random() < 0.01 * multiplier) {
+                clearInterval(intervalId);
+                isGameRunning = false;
+                gameHistory.push({ bet: betAmount, win: betAmount * multiplier });
+                updateGameHistory();
+                alert(`Game Over! You won ${betAmount * multiplier}`);
+            }
+        }, 100);
     }
 }
+
+function updateGameHistory() {
+    gameHistoryList.innerHTML = '';
+    gameHistory.forEach((round) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Bet: ${round.bet}, Win: ${round.win}`;
+        gameHistoryList.appendChild(listItem);
+    });
+}
+
+function withdraw() {
+    const withdrawalAmount = parseInt(withdrawalAmountInput.value);
+    if (isNaN(withdrawalAmount) || withdrawalAmount <= 0) {
+        alert('Please enter a valid withdrawal amount.');
+        return;
+    }
+
+    // Implement withdrawal logic here, e.g., call an API to process the withdrawal
+    alert(`Withdrawal of ${withdrawalAmount} is successful.`);
+}
+
+placeBetButton.addEventListener('click', startGame);
+withdrawButton.addEventListener('click', withdraw);
