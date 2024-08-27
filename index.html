@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Aviator Crash Casino Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Crash Casino</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
-        <div class="plane-container">
-            <img src="plane.png" alt="Plane">
+        <h1>Aviator Crash Casino</h1>
+        <div class="game-area">
+            <div class="plane-container">
+                <img src="plane.png" class="plane" alt="plane">
+            </div>
+            <div class="crash-point-container">
+                <span class="crash-point"></span>
+            </div>
         </div>
-        <div class="multiplier-container">
-            <p id="multiplier">1x</p>
+        <div class="bet-area">
+            <label for="bet-amount">Bet Amount:</label>
+            <input type="number" id="bet-amount" value="1">
+            <button id="bet-button">Place Bet</button>
         </div>
-        <div class="bet-container">
-            <input type="number" id="bet-amount" placeholder="Bet Amount">
-            <button id="place-bet">Place Bet</button>
+        <div class="balance-area">
+            <span id="balance">Balance: $0</span>
         </div>
-        <div class="history-container">
-            <h2>Game History</h2>
-            <ul id="game-history"></ul>
+        <div class="withdrawal-area">
+            <label for="withdrawal-amount">Withdrawal Amount:</label>
+            <input type="number" id="withdrawal-amount" value="0">
+            <button id="withdrawal-button">Withdraw</button>
+        </div>
+        <div class="history-area">
+            <h2>Game History:</h2>
+            <ul id="history-list"></ul>
         </div>
     </div>
-    <div class="withdrawal-container">
-        <h2>Withdraw</h2>
-        <input type="number" id="withdrawal-amount" placeholder="Withdrawal Amount">
-        <button id="withdraw">Withdraw</button>
-    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
