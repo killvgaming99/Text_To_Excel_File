@@ -7,28 +7,26 @@
 </head>
 <body>
 
-    <!-- Button to open the website and remove the specified element -->
-    <button onclick="openAndRemoveElement()">Open Website</button>
+    <button onclick="openInIframe()">Open Website in iFrame</button>
+    <iframe id="myIframe" style="width: 100%; height: 500px; border: none;"></iframe>
 
     <script>
-    function openAndRemoveElement() {
-        // Open the website in a new window
-        let url = "https://aviator-demo.spribegaming.com/?currency=INR&operator=demo&jurisdiction=CW&lang=EN&user=61082&token=nLGk1HIY6PjEQ87abfKA5J0AFp3axIrl";
-        let newWindow = window.open(url, '_blank');
+    function openInIframe() {
+        var iframe = document.getElementById("myIframe");
+        iframe.src = "https://aviator-demo.spribegaming.com/?currency=INR&operator=demo&jurisdiction=CW&lang=EN&user=61082&token=nLGk1HIY6PjEQ87abfKA5J0AFp3axIrl";
 
-        // Wait until the website loads, then remove the specific element
-        newWindow.onload = function() {
-            // Use setTimeout to ensure the page content has fully loaded before manipulating the DOM
-            setTimeout(function() {
-                // Try to remove the element with the class 'fun-mode'
-                let element = newWindow.document.querySelector('.fun-mode');
+        // After the iframe loads, try to remove the element
+        iframe.onload = function() {
+            try {
+                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                var element = iframeDocument.querySelector('.fun-mode');
                 if (element) {
-                    element.remove();  // Remove the element
+                    element.remove();
                     console.log("Element removed successfully.");
-                } else {
-                    console.log("Element not found.");
                 }
-            }, 2000); // Wait for 2 seconds before trying to remove the element (adjust timing if needed)
+            } catch (e) {
+                console.log("Cannot access iframe content: " + e);
+            }
         };
     }
     </script>
