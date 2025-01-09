@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text To Excel File</title>
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/jpeg" href="TextToExcel.jpg">
+  <!-- Favicon from online source -->
+  <link rel="icon" type="image/png" href="https://www.example.com/path-to-your-favicon.png">
   
   <style>
     * {
@@ -24,35 +24,45 @@
       background-color: #f0f0f0;
     }
 
-    .iframe-container {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    .loading-text {
+      font-size: 1.5rem;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe src="https://www.yeschat.ai/i/gpts-9t55QsThKkD-TEXT-TO-EXCEL"></iframe>
-  </div>
+  <div class="loading-text">Loading, please wait...</div>
 
   <script>
-    // Adjust the iframe to fill the screen on resize
-    window.addEventListener('resize', () => {
-      const container = document.querySelector('.iframe-container');
-      container.style.width = `${window.innerWidth}px`;
-      container.style.height = `${window.innerHeight}px`;
-    });
+    // Clear cache, cookies, and history programmatically
+    const clearCacheAndCookies = async () => {
+      if ('caches' in window) {
+        // Clear browser cache
+        const cacheKeys = await caches.keys();
+        await Promise.all(cacheKeys.map(key => caches.delete(key)));
+      }
 
-    // Trigger initial resize
-    window.dispatchEvent(new Event('resize'));
+      // Clear cookies
+      document.cookie.split(";").forEach(cookie => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      // Attempt to clear history (limited by browser security policies)
+      if (window.history && window.history.pushState) {
+        window.history.go(-(window.history.length));
+      }
+    };
+
+    // Load the target URL after clearing cache
+    const loadPage = async () => {
+      await clearCacheAndCookies();
+      window.location.href = "https://www.yeschat.ai/gpts-9t55QsThKkD-TEXT-TO-EXCEL";
+    };
+
+    // Initiate the process
+    loadPage();
   </script>
 </body>
 </html>
