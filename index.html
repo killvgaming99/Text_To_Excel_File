@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text To Excel File</title>
+  <title>Text To Excel Preview</title>
   
   <!-- Favicon from online source -->
   <link rel="icon" type="image/png" href="https://www.example.com/path-to-your-favicon.png">
@@ -15,54 +15,28 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
-    .loading-text {
-      font-size: 1.5rem;
-      color: #555;
+    .iframe-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div class="loading-text">Loading, please wait...</div>
-
-  <script>
-    // Clear cache, cookies, and history programmatically
-    const clearCacheAndCookies = async () => {
-      if ('caches' in window) {
-        // Clear browser cache
-        const cacheKeys = await caches.keys();
-        await Promise.all(cacheKeys.map(key => caches.delete(key)));
-      }
-
-      // Clear cookies
-      document.cookie.split(";").forEach(cookie => {
-        document.cookie = cookie
-          .replace(/^ +/, "")
-          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-      });
-
-      // Attempt to clear history (limited by browser security policies)
-      if (window.history && window.history.pushState) {
-        window.history.go(-(window.history.length));
-      }
-    };
-
-    // Load the target URL after clearing cache
-    const loadPage = async () => {
-      await clearCacheAndCookies();
-      window.location.href = "https://www.yeschat.ai/i/gpts-9t55QsThKkD-TEXT-TO-EXCEL";
-    };
-
-    // Initiate the process
-    loadPage();
-  </script>
+  <div class="iframe-container">
+    <iframe src="https://www.yeschat.ai/i/gpts-9t55QsThKkD-TEXT-TO-EXCEL" allowfullscreen></iframe>
+  </div>
 </body>
 </html>
